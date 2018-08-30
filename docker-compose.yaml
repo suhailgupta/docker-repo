@@ -1,0 +1,29 @@
+########################################################################
+#
+# title:       Docker Compose YAML file for Virtual-Vehicles Project
+# author:      Gary A. Stafford (https://programmaticponderings.com)
+# url:         https://github.com/garystafford/virtual-vehicles-docker  
+# description: Builds (4) images, pulls (2) images, and builds (9) containers,
+#              for the Virtual-Vehicles Java microservices example REST API
+# to run:      docker-compose -p virtualvehicles up -d
+#
+########################################################################
+
+netflix-eureka:
+  build: namingservice/
+  ports:
+   - "8761:8761"
+
+exchange:
+  build: currencyexchangeservice/
+  ports:
+   - "8000:8000"
+  links:
+   - netflix-eureka
+
+conversion-service:
+  build: currencyconversionservice/
+  ports:
+   - "8100:8100"
+  links:
+   - netflix-eureka
